@@ -3,7 +3,10 @@
       <div class="todo-container">
           <div class="todo-warp">
               <MyHeader :unshiftTodo="unshiftTodo"/>
-              <MyList :todos="todos"/>
+              <MyList 
+                :todos="todos" 
+                :checkTodo="checkTodo"
+              />
               <MyFooter/>
           </div>
       </div>
@@ -25,13 +28,20 @@
           todos:[
               {id:'0001',title:'coding',done:true},
               {id:'0002',title:'learning',done:false},
-              {id:'0003',title:'running',done:true},
+              {id:'0003',title:'running',done:false},
           ]
       }
     },
     methods: {
+      // 添加一个todo
       unshiftTodo(newTodoObj){
         this.todos.unshift(newTodoObj)
+      },
+      // 取消或勾选一个todo
+      checkTodo(id){
+        this.todos.forEach((todo)=>{
+          if(todo.id === id) { todo.done = !todo.done }
+        })
       }
     },
   };
