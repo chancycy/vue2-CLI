@@ -2,8 +2,8 @@
   <div id="root">
       <div class="todo-container">
           <div class="todo-warp">
-              <MyHeader/>
-              <MyList/>
+              <MyHeader :unshiftTodo="unshiftTodo"/>
+              <MyList :todos="todos"/>
               <MyFooter/>
           </div>
       </div>
@@ -19,6 +19,20 @@
     name: "App",
     components: {
       MyHeader,MyList,MyFooter
+    },
+    data() {
+      return {
+          todos:[
+              {id:'0001',title:'coding',done:true},
+              {id:'0002',title:'learning',done:false},
+              {id:'0003',title:'running',done:true},
+          ]
+      }
+    },
+    methods: {
+      unshiftTodo(newTodoObj){
+        this.todos.unshift(newTodoObj)
+      }
     },
   };
 </script>

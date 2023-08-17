@@ -9,15 +9,7 @@ import MyItem from './MyItem.vue'
 export default {
     name:'MyList',
     components:{MyItem},
-    data() {
-        return {
-            todos:[
-                {id:'0001',title:'coding',done:true},
-                {id:'0002',title:'learning',done:false},
-                {id:'0003',title:'running',done:true},
-            ]
-        }
-    },
+    props:['todos']
 }
 </script>
 
