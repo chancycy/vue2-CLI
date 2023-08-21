@@ -3,11 +3,8 @@
       <div class="todo-container">
           <div class="todo-warp">
               <MyHeader :unshiftTodo="unshiftTodo"/>
-              <MyList 
-                :todos="todos" 
-                :checkTodo="checkTodo"
-              />
-              <MyFooter/>
+              <MyList :todos="todos" :checkTodo="checkTodo" :deleteTodo="deleteTodo"/>
+              <MyFooter :todos="todos" :checkAllTodo="checkAllTodo" :clearAllTodo="clearAllTodo"/>
           </div>
       </div>
   </div>
@@ -42,6 +39,18 @@
         this.todos.forEach((todo)=>{
           if(todo.id === id) { todo.done = !todo.done }
         })
+      },
+      // 删除一个todo
+      deleteTodo(id){
+        this.todos = this.todos.filter( todo => todo.id !== id )
+      },
+      // 全选或取消全选
+      checkAllTodo(done){
+        this.todos.forEach(todo=>todo.done=done)
+      },
+      // 清空勾选的todo
+      clearAllTodo(){
+        this.todos=this.todos.filter(todo=>!todo.done)
       }
     },
   };

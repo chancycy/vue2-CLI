@@ -6,7 +6,7 @@
             <span>{{todo.title}}</span>
         </label>
         <!--- <button class="btn btn-danger" style="display:none">删除</button> -->
-        <button class="btn btn-danger">删除</button>
+        <button class="btn btn-danger" @click="handleDelete(todo.id)">删除</button>
     </li>
 </template>
 
@@ -14,16 +14,19 @@
 export default {
     name:'MyItem',
     // 声明接收todo对象
-    props:['todo','checkTodo'],
-    data() {
-        return {
-            
-        }
-    },
+    props:['todo','checkTodo','deleteTodo'],
     methods: {
+        //勾选或取消勾选
         handleCheck(id){
             // 通知App组件将对应todo对象的done值取反即可
             this.checkTodo(id)
+        },
+        // 删除
+        handleDelete(id){
+            // 提示是否删除
+            if(confirm("确定删除吗？")){
+                this.deleteTodo(id)
+            }
         }
     },
 }
