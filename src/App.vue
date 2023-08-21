@@ -21,12 +21,9 @@
       MyHeader,MyList,MyFooter
     },
     data() {
+          //由于todos是MyHeader组件和MyFooter组件都在使用，所以放在App中（状态提升）
       return {
-          todos:[
-              {id:'0001',title:'coding',done:true},
-              {id:'0002',title:'learning',done:false},
-              {id:'0003',title:'running',done:false},
-          ]
+        todos:JSON.parse(localStorage.getItem('todos'))||[]
       }
     },
     methods: {
@@ -51,6 +48,14 @@
       // 清空勾选的todo
       clearAllTodo(){
         this.todos=this.todos.filter(todo=>!todo.done)
+      }
+    },
+    watch: {
+      todos:{
+        deep:true,
+        handler(value){
+          localStorage.setItem('todos',JSON.stringify(value))
+        }
       }
     },
   };
