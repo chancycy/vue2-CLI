@@ -7,11 +7,11 @@
 
 		<!-- 通过父组件给子组件绑定一个自定义事件实现：子给父传递数据（第一种写法，使用@或v-on） -->
 		<!-- 方法1 -->
-		 <Student @lcyComponent="getStudentName" @click.native.once="show"/>
+		<!-- <Student @lcyComponent="getStudentName" @click.native.once="show"/> -->
 		<!-- <Student v-on:lcyComponent="getStudentName"/> -->
 
 		<!-- 通过父组件给子组件绑定一个自定义事件实现：子给父传递数据（第二种写法，使用ref） -->
-		<!-- <Student ref="student" @demo="m1" /> -->
+		 <Student ref="student" @demo="m1" @click.native.once="show" /> 
 		<!--<Student ref="student"/>-->
 	</div>
 </template>
@@ -33,9 +33,9 @@ export default {
 		getSchoolName(name) {
 			console.log('App收到了学校name :>> ', name);
 		},
-		getStudentName(name, ...params) {
-			console.log('App收到了学生name :>> ', name, params);
-		},
+		// getStudentName(name, ...params) {
+		// 	console.log('App收到了学生name :>> ', name, params);
+		// },
 		m1(){
 			console.log(' Demo组件被触发了:>> ');
 		},
@@ -44,7 +44,12 @@ export default {
 		}
 	},
 	mounted() {
-		// this.$refs.student.$on('lcyComponent', this.getStudentName)
+		this.$refs.student.$on('lcyComponent',(name,...params)=>{
+			console.log('this :>> ', this);
+			console.log('App收到了学生name :>> ', name, params);
+			this.studentName=name
+		})
+
 		// 绑定组件（但只有一次）
 		// this.$refs.student.$once('lcyComponent', this.getStudentName)
 		// setTimeout(()=>{
