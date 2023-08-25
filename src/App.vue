@@ -1,67 +1,101 @@
 <template>
-	<div class="app">
-		<h1>{{ msg }}，学生姓名是:{{ studentName }}</h1>
-
-		<!-- 通过父组件给子组件传递函数类型的props实现：子给父传递数据 -->
-		<School :getSchoolName="getSchoolName" />
-
-		<!-- 通过父组件给子组件绑定一个自定义事件实现：子给父传递数据（第一种写法，使用@或v-on） -->
-		<!-- 方法1 -->
-		<!-- <Student @lcyComponent="getStudentName" @click.native.once="show"/> -->
-		<!-- <Student v-on:lcyComponent="getStudentName"/> -->
-
-		<!-- 通过父组件给子组件绑定一个自定义事件实现：子给父传递数据（第二种写法，使用ref） -->
-		 <Student ref="student" @demo="m1" @click.native.once="show" /> 
-		<!--<Student ref="student"/>-->
-	</div>
+  <div id="root">
+      <div class="todo-container">
+          <div class="todo-warp">
+              <MyHeader @unshiftTodo="unshiftTodo"/>
+              <MyList :todos="todos" :checkTodo="checkTodo" :deleteTodo="deleteTodo"/>
+              <MyFooter :todos="todos" @checkAllTodo="checkAllTodo" @clearAllTodo="clearAllTodo"/>
+          </div>
+      </div>
+  </div>
 </template>
 
 <script>
-import Student from './components/Student'
-import School from './components/School'
+  import MyHeader from './components/MyHeader'
+  import MyList from './components/MyList'
+  import MyFooter from './components/MyFooter'
 
-export default {
-	name: 'App',
-	components: { School, Student },
-	data() {
-		return {
-			msg: '你好啊！',
-			studentName: ''
-		}
-	},
-	methods: {
-		getSchoolName(name) {
-			console.log('App收到了学校name :>> ', name);
-		},
-		// getStudentName(name, ...params) {
-		// 	console.log('App收到了学生name :>> ', name, params);
-		// },
-		m1(){
-			console.log(' Demo组件被触发了:>> ');
-		},
-		show(){
-			alert('原生事件需要加.native')
-		}
-	},
-	mounted() {
-		this.$refs.student.$on('lcyComponent',(name,...params)=>{
-			console.log('this :>> ', this);
-			console.log('App收到了学生name :>> ', name, params);
-			this.studentName=name
-		})
-
-		// 绑定组件（但只有一次）
-		// this.$refs.student.$once('lcyComponent', this.getStudentName)
-		// setTimeout(()=>{
-		// 	this.$refs.student.$on('lcyComponent',this.getStudentName)
-		// },5000)
-	},
-}
+  export default {
+    name: "App",
+    components: {
+      MyHeader,MyList,MyFooter
+    },
+    data() {
+          //由于todos是MyHeader组件和MyFooter组件都在使用，所以放在App中（状态提升）
+      return {
+        todos:JSON.parse(localStorage.getItem('todos'))||[]
+      }
+    },
+    methods: {
+      // 添加一个todo
+      unshiftTodo(newTodoObj){
+        this.todos.unshift(newTodoObj)
+      },
+      // 取消或勾选一个todo
+      checkTodo(id){
+        this.todos.forEach((todo)=>{
+          if(todo.id === id) { todo.done = !todo.done }
+        })
+      },
+      // 删除一个todo
+      deleteTodo(id){
+        this.todos = this.todos.filter( todo => todo.id !== id )
+      },
+      // 全选或取消全选
+      checkAllTodo(done){
+        this.todos.forEach(todo=>todo.done=done)
+      },
+      // 清空勾选的todo
+      clearAllTodo(){
+        this.todos=this.todos.filter(todo=>!todo.done)
+      }
+    },
+    watch: {
+      todos:{
+        deep:true,
+        handler(value){
+          localStorage.setItem('todos',JSON.stringify(value))
+        }
+      }
+    },
+  };
 </script>
 
-<style scoped>
-.app {
-	background-color: rgb(224, 221, 221);
-	padding: 5px;
-}
+<style>
+  body {
+    background: #fff;
+  }
+  .btn {
+    display: inline-block;
+    padding: 4px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+  }
+  .btn-danger {
+    color: #fff;
+    background-color: #da4f49;
+    border: 1px solid #bd362f;
+  }
+  .btn-danger:hover {
+    color: #fff;
+    background-color: #bd362f;
+  }
+  .btn:focus {
+    outline: none;
+  }
+  .todo-container {
+    width: 600px;
+    margin: 0 auto;
+  }
+  .todo-container .todo-wrap {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
 </style>
