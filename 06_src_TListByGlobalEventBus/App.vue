@@ -61,18 +61,10 @@
     mounted() {
       this.$bus.$on('checkTodo',this.checkTodo)
       this.$bus.$on('deleteTodo',this.deleteTodo)
-      this.$bus.$on('updateTodo',(id,title)=>{
-        this.todos.forEach((todo)=>{
-          if(todo.id==id){
-            todo.title=title
-          }
-        })
-      })
     },
     beforeDestroy() {
       this.$bus.$off('checkTodo')
       this.$bus.$off('deleteTodo')
-      this.$bus.$off('updateTodo')
     },
   };
 </script>
@@ -101,15 +93,6 @@
   .btn-danger:hover {
     color: #fff;
     background-color: #bd362f;
-  }
-  .btn-edit{
-    color: #fff;
-    background-color: rgb(65, 175, 218);
-    border: 1px solid rgb(58, 157, 196);
-  }
-  .btn-edit:hover{
-    color:#fff;
-    background-color: rgb(58, 157, 196);
   }
   .btn:focus {
     outline: none;

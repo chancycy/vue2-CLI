@@ -3,18 +3,10 @@
         <label>
             <input type="checkbox" :checked="todo.done" @change="handleCheck(todo.id)">
             <!-- 或者将@click换成 @change="handleCheck(todo.id)" -->
-            <span v-show="!todo.isEdit">{{todo.title}}</span>
-            <input 
-                type="text"
-                ref="inputTile"
-                :value="todo.title"
-                v-show="todo.isEdit"
-                @blur="handleBlur(todo,$event)"
-            >
+            <span>{{todo.title}}</span>
         </label>
         <!--- <button class="btn btn-danger" style="display:none">删除</button> -->
         <button class="btn btn-danger" @click="handleDelete(todo.id)">删除</button>
-        <button v-show="!todo.isEdit" class="btn btn-edit" @click="handleEdit(todo)">修改</button>
     </li>
 </template>
 
@@ -37,23 +29,6 @@ export default {
                 // this.deleteTodo(id)
                 this.$bus.$emit('deleteTodo',id)
             }
-        },
-        // 编辑
-        handleEdit(todo){
-            if(todo.hasOwnProperty('isEdit')){
-                todo.isEdit=true
-            }
-            else{
-                this.$set(todo,'isEdit',true)
-            }
-            this.$nextTick(()=>{
-                this.$refs.inputTile.focus()
-            })
-        },
-        handleBlur(todo,e){
-            todo.isEdit=false
-            if(!e.target.value.trim()) return alert('input can`t null')
-            this.$bus.$emit('updateTodo',todo.id,e.target.value)
         }
     },
 }
