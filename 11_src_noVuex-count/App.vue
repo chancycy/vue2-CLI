@@ -8,6 +8,6 @@
 import Count from './component/Count.vue';
 export default {
   name: "App",
-  components:{Count},
+  components:{Count}
 };
 </script>

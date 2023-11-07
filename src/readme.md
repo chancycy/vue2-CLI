@@ -1,17 +1,10 @@
-# gitHub用户搜索案例
+# 求和案例(使用Vuex的getter)
+  - 本次案例完成：
+- 模板里可以看见vc上的所有东西，不需要this去点.
 
-关于bootstrap：在public文件夹下新建css文件夹，将bootstrap.css放入
-引入方式：在index的head中通过``<link rel="stylesheet" href="<%= BASE_URL %>css/bootstrap.css">``
+---
+- 安装vuex:vue2要安装vuex3版本，命令--``npm i vuex@3``
 
-全局事件总线的使用：
-1. first：在main.js中 安装全局事件总线
-```
-    new Vue({
-        beforeCreate(){Vue.prototype.$bus = this}
-    })
-```
-2. Search提供数据，List接收数据（想使用）
-    1. 在接收数据的vue组件的mounted生命周期函数里有``this.$bus.$on('a-name',functionA{..箭头函数..})``或者``this.$bus.$on('a-name',this.函数名)``
-        不想取函数名就直接用箭头函数
-    2. 在提供数据的vue组件（这里是Search.vue）使用``this.$bus.$emit('a-name'【名字要一致】,要传的数据)``
-    3. 在接收数据的vue组件的beforeDestroy里使用``this.$bus.$off('a-name')``销毁
+- Vuex：专为Vue的状态管理模式。采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。
+  - 集中式存储：数据（状态）是集中放在一起的，共用给多个需要使用的组件。
+---
