@@ -55,7 +55,9 @@ const mutations = {
 
 // state--存储数据
 const state = {
-    sum: 0
+    sum: 0,
+    school: 'aaaaa',
+    subject: 'bbbbb'
 }
 
 // getters--将state中的数据进行加工
