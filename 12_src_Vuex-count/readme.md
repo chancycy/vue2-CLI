@@ -7,7 +7,7 @@
   - store文件夹的index里，actions中``方法名(context,value){context.commit('mutations方法名-一般是全大写',value)}``
   - mutations中``大写方法名(state,value){state.sum = ... }``
 - tips：
-  - ``dispatch``和actions对话，``commit``和mutations对话。
+  - **``dispatch``和actions对话，``commit``和mutations对话。**
   - 注意：如果没有进行异步操作什么的，可以绕过actions，直接操作mutations。即：在组件的methods中的方法直接调用``this.$store.commit('mutations中的大写方法名',要传的参数eg:this.n )``
 ---
 - 安装vuex:vue2要安装vuex3版本，命令--``npm i vuex@3``
