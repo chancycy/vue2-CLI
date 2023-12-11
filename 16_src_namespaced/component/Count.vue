@@ -26,39 +26,19 @@ export default {
         }
     },
     methods: {
-        /* increase(){
-            // this.$store.dispatch('jia',this.n)
-            this.$store.commit('JIA',this.n)    // 直接和mutations对话
-        },
-        decrease(){
-            // this.$store.dispatch('jian',this.n)
-            this.$store.commit('JIAN',this.n)
-        }, */
-        // ------------------------------------
         // 借助mapMutations生成对应的方法，方法中会调用commit去联系mutations（对象写法）
-        ...mapMutations({increase:'JIA',decrease:'JIAN'}),
-        // ...mapMutations(['JIA','JIAN']),    // 这个时候模板里就不能用increase和decrease了，得用JIA和JIAN
-        // ------------------------------------
-        /* increaseOdd(){
-            this.$store.dispatch('jiaOdd',this.n)
-        },
-        increaseWait(){
-            this.$store.dispatch('jiaWait',this.n)
-        } */
+        ...mapMutations('countAbout',{increase:'JIA',decrease:'JIAN'}),
         // ------------------------------------
         // 借助mapActions生成对应的方法，方法中会调用dispatch去联系Actions（对象写法）
-        ...mapActions({increaseOdd:'jiaOdd',increaseWait:'jiaWait'}),
-        ...mapActions(['jiaOdd','jiaWait']),    // 这个时候模板里就不能用increaseOdd和increaseWait
+        ...mapActions('countAbout',{increaseOdd:'jiaOdd',increaseWait:'jiaWait'}),
     },
     computed:{
         // 借助mapState生成计算属性，从state中读取数据
-        // ...mapState({sum:'sum',school:'school',subject:'subject'}), //对象写法
-        ...mapState(['sum','school','subject','personList']),    // 数组写法
-
+        ...mapState('countAbout',['sum','school','subject']),    // 数组写法
+        ...mapState('personAbout',['personList']),
         // -----------------------------
         // 借助mapState生成计算属性，从getters中读取数据
-        // ...mapGetters({bigSum:'bigSum'}),   // 对象写法
-        ...mapGetters(['bigSum']),  // 数组写法
+        ...mapGetters('countAbout',['bigSum']),  // 数组写法
     }
 }
 </script>
