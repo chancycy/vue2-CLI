@@ -20,6 +20,10 @@ import Home from '../pages/Home.vue'
 // })
 // export default router
 
+// 引入组件
+import News from '../pages/News.vue'
+import Message from '../pages/Message.vue'
+
 export default new VueRouter({
     routes: [
         {
@@ -28,7 +32,14 @@ export default new VueRouter({
         },
         {
             path: '/home',
-            component: Home
+            component: Home,
+            children: [{
+                path: 'news',
+                component: News
+            }, {
+                path: 'message',
+                component: Message
+            }]
         }
     ]
 })

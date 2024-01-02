@@ -1,3 +1,9 @@
+# vue router 多级路由
+子路由新增在路由下的配置项children中，
+    注意:1.此时的path不需要再以``/``开头。
+        2. 对应的to的路径要写全。即：``/home/news``不能简写成``/news``
+
+
 # vue router 相关
 路由：一组key和value的对应关系就是一个路由。
     key是路径（eg：localhost:8080.../home中的``'/home'``）
