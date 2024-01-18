@@ -1,3 +1,15 @@
+# vueRouter 跳转路由的两种模式（push和replace）
+  1. 作用：控制路由跳转时操作浏览器历史记录的模式
+  2. 浏览器的历史记录有两种写入方式：push和replace
+    push是追加历史记录，路由跳转时候默认为push方式
+    replace是替换当前记录(即：开了replace的这条记录会在，但上一条记录不在)
+  3. 开启replace模式
+    - :replace="true" 或简写为 replace 
+    - ``<router-link :replace="true" ...>News</router-link>``
+    - 简写``<router-link replace ...>News</router-link>``
+    总结：浏览记录本质是一个栈，默认push，点开新页面就会在栈顶追加一个地址，后退，栈顶指针向下移动，改为replace就是不追加，而将栈顶地址替换
+    - eg：依次点击about、home、news、message(news和message开了replace)，此时点击后退，会回到about页面。
+
 # vueRouter props
 为了解决读取参数时更简洁，避免重复写如``{{$route.query.id}}``，希望简洁成``{{id}}``
 - 组件的props是为了接收外部传给组件的东西
