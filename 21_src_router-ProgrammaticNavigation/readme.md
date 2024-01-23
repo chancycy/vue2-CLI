@@ -11,6 +11,7 @@
     `this.$router.go(n)`		可前进也可后退，n为正数前进n，为负数后退
   
 
+
 # vueRouter 跳转路由的两种模式（push和replace）
   1. 作用：控制路由跳转时操作浏览器历史记录的模式
   2. 浏览器的历史记录有两种写入方式：push和replace
