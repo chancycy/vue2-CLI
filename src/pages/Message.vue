@@ -53,6 +53,9 @@ export default {
             ],
         }
     },
+    beforeDestroy() {
+        console.log('message组件 will go die :>> ', );
+    },
     methods: {
         pushShow(m){
             console.log('push--this.$router :>> ', this.$router);

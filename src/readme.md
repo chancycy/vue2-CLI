@@ -1,3 +1,9 @@
+# vueRouter 缓存路由组件
+案例：在每一个news的后面都加一个输入框，使在进行路由组件的切换时(点完message后再点news)，input框的内容依然存在。
+在要展示的router-view外使用``keep-alive``,include指明组件名(区分大小写)，不指明则默认所有路由组件，存在多个时include里写成数组形式(实测不写成数组也可以)。
+  即：news展示在home组件里，所以是在home组件的router-view外加keep-alive，``<keep-alive include="News"> <router-view></router-view> </keep-alive>``
+
+
 # vueRouter 编程式路由导航（路由的跳转方式）
 案例：大标题下有‘后退’和‘前进’两个按钮，相当浏览器的前进后退。message里每一条消息后有两个按钮，‘push查看’和‘replace查看’，push查看后 后退能看到每一条记录，replace查看只能看到最后一次的记录。
 

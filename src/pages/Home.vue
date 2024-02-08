@@ -10,7 +10,10 @@
         <router-link replace class="list-group-item" active-class="active" to="/home/message">Message</router-link>
       </li>
     </ul>
-    <router-view></router-view>
+    
+    <keep-alive include="News,Message">
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 
