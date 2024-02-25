@@ -42,7 +42,21 @@ const router = new VueRouter({
                 name: 'xinwen',
                 path: 'news',
                 meta: { isAuth: true, title: '新闻' },
-                component: News
+                component: News,
+                beforeEnter: (to, from, next) => {
+                    console.log('@@@独享路由守卫 :>> ',);
+                    console.log('to,from :>> ', to, from);
+                    if (to.meta.isAuth) {   // 判断是否需要鉴权
+                        if (localStorage.getItem('name') == 'lcy') {
+                            console.log('符合，放行 :>> ',);
+                            next()
+                        } else {
+                            alert('权限不符合要求,请检查localStorage')
+                        }
+                    } else {
+                        next()
+                    }
+                }
             }, {
                 name: 'xiaoxi',
                 path: 'message',
@@ -89,6 +103,7 @@ const router = new VueRouter({
     ]
 })
 
+/* 
 // 全局前置路由守卫--每次切换路由之前被调用、以及初始化时被调用
 router.beforeEach((to, from, next) => {
     console.log('@@@前置路由守卫 :>> ',);
@@ -109,6 +124,7 @@ router.beforeEach((to, from, next) => {
         next()
     }
 })
+ */
 
 // 全局前置路由守卫--每次切换路由之‘后’被调用、以及初始化时被调用
 router.afterEach((to, from) => {
