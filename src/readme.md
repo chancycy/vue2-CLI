@@ -1,3 +1,17 @@
+# vueRouter 路由守卫
+作用：保护路由的安全。
+  不是所有的路由组件都能点了就给展示（权限大小问题），得符合某些条件才能展示。（类似于过滤器）
+案例：localStorage里key为name，值为lcy时才能展示news和message的内容。（正常项目里要校验的数据应该是存在vuex或从接口调用数据库的，此处只是举例啊）
+  和路由器商量：当路径是home下的news和message时，请去localStorage里读取下name看看匹不匹配。--所以，写在路由index文件里。
+  - 做个提前准备：给每一个路由都取好名字(name设置为拼音hhh)
+  - 1. 直接用export default new VueRouter意思是创建了就直接暴露出去了，没有机会和路由器对话了，所以给这个new的router取个名字再暴露。
+  - 2. 在暴露之前，和它对话（进行权限判断），加上路由守卫。使用``router.beforeEach()``这个api。beforeEach是**全局前置路由守卫**API，有三个参数(to,from,next)
+    - to 要去哪；from 从哪来；next() 放行。
+    1. 在这里使用``to.path == '/home/news' || to.name == 'xiaoxi'``判断，但实际如果我要判断十二个是否符合，总不能将判断条件写12次吧
+    2. 路由的meta叫**路由元信息**，里面可以自己进行一些配置。``this.route.meta``
+       1. 本案例在需要增加校验的news和message里的meta添加了isAuth变量作为校验
+
+
 # vueRouter 两个生命周期函数activated和deactivated(路由组件独有)
 案例：在news展示框的input行上面，有一行字，周而复始的透明度0->1变化
 - 按照之前的写法，mounted里写定时器，beforeDestroy里清空定时器；但是，由于news组件通过keep-alive缓存了，所以news的定时器的内容并没有销毁。

@@ -25,7 +25,7 @@ import News from '../pages/News.vue'
 import Message from '../pages/Message.vue'
 import Detail from '../pages/Detail.vue'
 
-export default new VueRouter({
+const router = new VueRouter({
     routes: [
         {
             name: 'guanyu',
@@ -33,13 +33,18 @@ export default new VueRouter({
             component: About
         },
         {
+            name: 'zhuye',
             path: '/home',
             component: Home,
             children: [{
+                name: 'xinwen',
                 path: 'news',
+                meta: { isAuth: true },
                 component: News
             }, {
+                name: 'xiaoxi',
                 path: 'message',
+                meta: { isAuth: true },
                 component: Message,
                 children: [{
                     name: 'xijie',
@@ -80,3 +85,24 @@ export default new VueRouter({
         }
     ]
 })
+
+// 全局前置路由守卫--每次切换路由之前被调用、以及初始化时被调用
+router.beforeEach((to, from, next) => {
+    console.log('@@@前置路由守卫 :>> ',);
+    console.log('to,from :>> ', to, from);
+    // 但其实更多的时候是：如果不符合权限要求直接都不展示news和message
+    // if (to.path == '/home/news' || to.name == 'xiaoxi') {
+    // 实际如果我要判断十二个是否符合，总不能将判断条件写12次吧，所以使用meta
+    if (to.meta.isAuth) {   // 判断是否需要鉴权
+        if (localStorage.getItem('name') == 'lcy') {
+            console.log('符合，放行 :>> ',);
+            next()
+        } else {
+            alert('权限不符合要求,请检查localStorage')
+        }
+    } else {
+        next()
+    }
+})
+
+export default router;
