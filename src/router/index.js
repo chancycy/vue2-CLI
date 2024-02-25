@@ -30,25 +30,28 @@ const router = new VueRouter({
         {
             name: 'guanyu',
             path: '/about',
+            meta: { title: '关于' },
             component: About
         },
         {
             name: 'zhuye',
             path: '/home',
+            meta: { title: '主页' },
             component: Home,
             children: [{
                 name: 'xinwen',
                 path: 'news',
-                meta: { isAuth: true },
+                meta: { isAuth: true, title: '新闻' },
                 component: News
             }, {
                 name: 'xiaoxi',
                 path: 'message',
-                meta: { isAuth: true },
+                meta: { isAuth: true, title: '消息' },
                 component: Message,
                 children: [{
                     name: 'xijie',
-                    path: 'detail',                  // query传参时
+                    path: 'detail',
+                    meta: { title: '细节' },                // query传参时
                     // path: 'detail/:id/:title',       // params传参时
                     component: Detail,
                     // ------------------------------
@@ -95,14 +98,22 @@ router.beforeEach((to, from, next) => {
     // 实际如果我要判断十二个是否符合，总不能将判断条件写12次吧，所以使用meta
     if (to.meta.isAuth) {   // 判断是否需要鉴权
         if (localStorage.getItem('name') == 'lcy') {
+            // document.title = to.meta.title || '初始界面'
             console.log('符合，放行 :>> ',);
             next()
         } else {
             alert('权限不符合要求,请检查localStorage')
         }
     } else {
+        // document.title = to.meta.title || '初始界面'
         next()
     }
+})
+
+// 全局前置路由守卫--每次切换路由之‘后’被调用、以及初始化时被调用
+router.afterEach((to, from) => {
+    console.log('@@后置路由守卫 :>> ',);
+    document.title = to.meta.title || '初始界面'
 })
 
 export default router;

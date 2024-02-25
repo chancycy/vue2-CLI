@@ -5,12 +5,24 @@
   和路由器商量：当路径是home下的news和message时，请去localStorage里读取下name看看匹不匹配。--所以，写在路由index文件里。
   - 做个提前准备：给每一个路由都取好名字(name设置为拼音hhh)
   - 1. 直接用export default new VueRouter意思是创建了就直接暴露出去了，没有机会和路由器对话了，所以给这个new的router取个名字再暴露。
-  - 2. 在暴露之前，和它对话（进行权限判断），加上路由守卫。使用``router.beforeEach()``这个api。beforeEach是**全局前置路由守卫**API，有三个参数(to,from,next)
+  - 2. 在暴露之前，和它对话（进行权限判断），加上路由守卫。
+- 
+  - 使用``router.beforeEach()``这个api。
+  - beforeEach是**全局前置路由守卫**API，有三个参数(to,from,next)
     - to 要去哪；from 从哪来；next() 放行。
     1. 在这里使用``to.path == '/home/news' || to.name == 'xiaoxi'``判断，但实际如果我要判断十二个是否符合，总不能将判断条件写12次吧
     2. 路由的meta叫**路由元信息**，里面可以自己进行一些配置。``this.route.meta``
        1. 本案例在需要增加校验的news和message里的meta添加了isAuth变量作为校验
-
+- 
+  - afterEach：全局后置路由守卫，有2个参数(to,from)
+  - 没有next 很好理解，执行之后进行鉴权，都执行了，自然不需要next
+  - 弹幕（不一定正确）：实际项目中路由跳转，前置守卫可以开启一个进度条，后置守卫中可以手动关闭进度条
+  - 用的不多，但也有用-例如切换显示的页签标题。
+    - js做---document.title
+      - -->配置在前置路由就会出问题。
+        - 一上来是undefined(通过||'初始化标题')来解决，但在shua进来的那下，还是会显示工程的初始title，只能去改index.html（显然非常没必要）。
+        - 此外，当无权访问news时（localStorage里的对不上了），title还是变了。解决方法：``document.title = to.meta.title || '初始界面'``写两遍，一遍在鉴权里，一遍在外圈的else里。（当然，写两遍这个解决方法很蠢）
+    - 而配置在后置路由里就不需要这么麻烦，直接在afterEach里写一行就行了。
 
 # vueRouter 两个生命周期函数activated和deactivated(路由组件独有)
 案例：在news展示框的input行上面，有一行字，周而复始的透明度0->1变化
