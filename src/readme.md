@@ -8,17 +8,16 @@
   - 2. 在暴露之前，和它对话（进行权限判断），加上路由守卫。
   
 - 全局路由守卫
-  - 使用``router.beforeEach()``这个api。
+  - 使用``router.beforeEach()``和``router.afterEach()``这个api。
   - beforeEach是**全局前置路由守卫**API，有三个参数(to,from,next)
     - to 要去哪；from 从哪来；next() 放行。
     1. 在这里使用``to.path == '/home/news' || to.name == 'xiaoxi'``判断，但实际如果我要判断十二个是否符合，总不能将判断条件写12次吧
     2. 路由的meta叫**路由元信息**，里面可以自己进行一些配置。``this.route.meta``
        1. 本案例在需要增加校验的news和message里的meta添加了isAuth变量作为校验
-  - 
   - afterEach：**全局后置路由守卫**，有2个参数(to,from)
-  - 没有next 很好理解，执行之后进行鉴权，都执行了，自然不需要next
+    - 没有next 很好理解，执行之后进行鉴权，都执行了，自然不需要next
   - 弹幕（不一定正确）：实际项目中路由跳转，前置守卫可以开启一个进度条，后置守卫中可以手动关闭进度条
-  - 用的不多，但也有用-例如切换显示的页签标题。
+    - 用的不多，但也有用-例如切换显示的页签标题。
     - js做---document.title
       - -->配置在前置路由就会出问题。
         - 一上来是undefined(通过||'初始化标题')来解决，但在shua进来的那下，还是会显示工程的初始title，只能去改index.html（显然非常没必要）。
@@ -28,7 +27,14 @@
   - 某个路由独享的守卫
   - 需求更改：只对news这一个路由做限制，进行鉴权。
   - API：``beforeEnter``，没有afterEnter啊hhhh。可以和全局后置路由守卫一起配合使用。
-- 
+- 组件内路由守卫
+  - 顾名思义：在组件里去写守卫，而不是在router的index文件写。
+  - 1. 注释掉index里的所有关于路由守卫的代码；选择about组件（这个组件简单点）进行写组件内路由守卫。
+  - 2. ``beforeRouteEnter``和``beforeRouteLeave``。beforeRouteEnter在通过路由规则进入该组件时被调用，beforeRouteLeave在通过路由规则离开该组件时被调用。
+  - 3. 注意：不能叫前置和后置守卫（页面在A组件，现在要点击B组件了：前置是切换前唤醒一次，后置是切换后唤醒一次，意思是当切换是，分别唤醒了两个守卫各一次。而实际并不是这样，A到B切换时，只是在进入B之前调用一次beforeRouteEnter，进入之后并没有守卫被调用，beforeRouteLeave则是在B到其他组件切换时离开B组件调用）
+  - 4. 请注意：**通过路由规则** --> ``<About/>``这种直接写在模板里的当然不是通过路由规则进入组件的，就不会调用组件内路由守卫。
+  - 5. 同个组件的beforeRouteEnter的to和beforeRouteLeave的from一定一致。
+
 
 # vueRouter 两个生命周期函数activated和deactivated(路由组件独有)
 案例：在news展示框的input行上面，有一行字，周而复始的透明度0->1变化

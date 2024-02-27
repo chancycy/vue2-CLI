@@ -30,7 +30,7 @@ const router = new VueRouter({
         {
             name: 'guanyu',
             path: '/about',
-            meta: { title: '关于' },
+            meta: { isAuth: true, title: '关于' },
             component: About
         },
         {
@@ -43,7 +43,7 @@ const router = new VueRouter({
                 path: 'news',
                 meta: { isAuth: true, title: '新闻' },
                 component: News,
-                beforeEnter: (to, from, next) => {
+                /* beforeEnter: (to, from, next) => {
                     console.log('@@@独享路由守卫 :>> ',);
                     console.log('to,from :>> ', to, from);
                     if (to.meta.isAuth) {   // 判断是否需要鉴权
@@ -56,7 +56,7 @@ const router = new VueRouter({
                     } else {
                         next()
                     }
-                }
+                } */
             }, {
                 name: 'xiaoxi',
                 path: 'message',
@@ -125,11 +125,11 @@ router.beforeEach((to, from, next) => {
     }
 })
  */
-
+/* 
 // 全局前置路由守卫--每次切换路由之‘后’被调用、以及初始化时被调用
 router.afterEach((to, from) => {
     console.log('@@后置路由守卫 :>> ',);
     document.title = to.meta.title || '初始界面'
 })
-
+ */
 export default router;
