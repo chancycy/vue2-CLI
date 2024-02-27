@@ -1,3 +1,39 @@
+# vueRouter 路由器的工作模式--hash模式和history模式
+- 对于一个url来说，什么是hash值？
+  - #及其后面的内容就是hash值
+- 特点：hash值不会包含在HTTP请求中，即：hash值不会带给服务器
+  - 不想给服务器的东西就可以写在hash值里。
+
+hash模式（默认开启）
+- 地址中永远带着#号，不美观
+- 若以后将地址通过第三方手机app分享，若app校验严格，则地址会被标记为不合法
+- 兼容性较好
+
+history模式
+- 地址干净，美观
+- 兼容性和hash模式相比略差
+- 应用部署上线时需要后端人员支持，解决刷新页面服务端404的问题
+  - 解决方法：（前端的）利用node中间件，去npmjs.com网站搜索``connect-history-api-fallback``
+  - 到server文件夹里进行``npm i connect-history-api-fallback``
+  - ``const history = require('connect-history-api-fallback');``按照文档提示放入server.js文件中
+  - 再使用：``app.use(history())``
+- 开启：在index里创建router时，``mode: 'history'``
+  
+serve命令：开启8080这台内置的小服务器，用于支撑程序在本机运行。
+build命令：打包，将.vue文件等生成纯粹的.html、.css、.js文件。
+(.js.map是映射文件-webpack里的知识点)
+打包后要进行部署。--需要个服务器（使用node+express搭建一个）
+- 1. 创建一个文件夹，vscode打开后，``npm init``，输入包的名字（我这里叫demo_for_vue2），然后一直回车。
+- 2. ``npm i express``后，新建一个文件server.js。
+- 3. 启动serves.js。运行``node server``，js文件里写的在5005端口看，所以在浏览器输入localhost:5005/person即可访问到发送的信息。
+- 4. 在这个文件夹里，static或public文件夹里存放前端的静态资源如html、图片等等
+- 5. 如何让static的文件让express认识呢？使用``app.use(express.static(__dirname + '/static'))``
+- 6. 停掉服务器再重新启动，输入localhost:5005/demo.html就可以访问demo了（不叫demo叫index.html的话，直接输入localhost:5005就可以了，默认去找index）
+- 7. 可以部署了，将build生成的一堆文件放在static里，运行，发现可以了。好耶！
+- 8. 但注意：一步步点的时候没问题（因为没有网络请求），但在有路径时一刷新，就会失败。原因是这是history模式，将后面一长串都当做路径了，去找服务器发现没有，可不就是报错了嘛。但如果是hash模式就不会。
+- 9. 当然 这里又要重新打包重新部署（麻烦，但没办法）
+
+
 # vueRouter 路由守卫
 作用：保护路由的安全。
   不是所有的路由组件都能点了就给展示（权限大小问题），得符合某些条件才能展示。（类似于过滤器）
