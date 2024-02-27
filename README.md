@@ -1,5 +1,7 @@
 # my_vuecli_test
 
+本项目是基于尚硅谷的张天禹讲解的vue2教学视频所练习写的代码。
+
 ## Project setup
 ```
 npm install
